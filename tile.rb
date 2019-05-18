@@ -1,10 +1,10 @@
 require_relative "board"
 
 class Tile
-    def initialize(pos, board)
+    def initialize(pos, bombed, board)
         @pos = pos
         @board = board
-        @bombed = board[pos].bomb?
+        @bombed = bombed
         @flagged = false
         @revealed = false
     end
