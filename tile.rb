@@ -43,6 +43,12 @@ class Tile
             return "F"
         elsif !@revealed
             return "*"
+        elsif @bombed
+            return "B"
+        elsif self.neighbor_bomb_count > 0
+            return "#{self.neighbor_bomb_count}"
+        else
+            return "_"
         end
     end
 end
