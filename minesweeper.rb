@@ -48,7 +48,7 @@ class MinesweeperGame
     end
 
     def get_move
-        puts "Do you want to reveal a square or flag/unflag a square? (r/f)"
+        puts "\nDo you want to reveal a square or flag/unflag a square? (r/f)"
         move = parse_move(gets.chomp)
         until self.valid_move?(move)
             puts "Sorry, not a valid move. Please try again. (r/f)"
