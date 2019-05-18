@@ -15,7 +15,7 @@ class Tile
     def reveal
         @revealed = true
         if !@bombed && self.neighbor_bomb_count == 0
-            neighbors.each { |neighbor| neighbor.reveal }
+            self.neighbors.each { |neighbor_pos| @board[neighbor_pos].reveal }
         end
     end
 
@@ -31,7 +31,7 @@ class Tile
             (y-1..y+1).each do |y_neighbor|
                 next if !y_neighbor.between?(0, 8)
                 pos_neighbor = [x_neighbor, y_neighbor]
-                neighbors << pos_neighbor unless @pos == pos_neighbor
+                neighbors << pos_neighbor unless @pos == pos_neighbor || @board[pos_neighbor].revealed
             end
         end
         neighbors
@@ -46,7 +46,7 @@ class Tile
     end
 
     def to_s
-        if @flagged
+        if !@revealed && @flagged
             return "F"
         elsif !@revealed
             return "*"
