@@ -27,4 +27,10 @@ class Tile
     def inspect
         { pos: @pos, bombed: @bombed, flagged: @flagged, revealed: @revealed }
     end
+
+    def to_s
+        if !@revealed
+            return "*"
+        end
+    end
 end
