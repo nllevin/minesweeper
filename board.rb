@@ -34,4 +34,9 @@ class Board
         @grid.each_with_index { |row, row_i| puts "#{row_i} #{row.map(&:to_s).join(" ")}" }
         true
     end
+
+    def [](pos)
+        x, y = pos
+        @grid[x][y]
+    end
 end
