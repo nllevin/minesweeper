@@ -31,7 +31,7 @@ class Tile
     end
 
     def neighbor_bomb_count
-        #finish
+        self.neighbors.count { |neighbor_pos| @board[neighbor_pos].bombed }
     end
 
     def inspect
