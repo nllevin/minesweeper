@@ -34,7 +34,11 @@ class Board
         puts "  " + (0..8).to_a.join(" ")
         puts "  " + "-" * 17
         @grid.each_with_index { |row, row_i| puts "#{row_i}|#{row.map(&:to_s).join(" ")}" }
-        true
+        puts "Unflagged bombs remaining: #{self.bombs_left}"
+    end
+
+    def bombs_left
+        10 - @grid.inject(0) { |num, row| num += row.count { |tile| tile.flagged } }
     end
 
     def [](pos)
