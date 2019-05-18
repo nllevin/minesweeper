@@ -30,6 +30,7 @@ class Board
     end
 
     def render
+        system("clear")
         puts "  " + (0..8).to_a.join(" ")
         @grid.each_with_index { |row, row_i| puts "#{row_i} #{row.map(&:to_s).join(" ")}" }
         true

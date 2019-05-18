@@ -14,6 +14,13 @@ class Tile
 
     def reveal
         @revealed = true
+        if !@bombed && self.neighbor_bomb_count == 0
+            neighbors.each { |neighbor| neighbor.reveal }
+        end
+    end
+
+    def flag
+        @flagged = !@flagged
     end
 
     def neighbors

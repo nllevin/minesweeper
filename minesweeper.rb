@@ -8,7 +8,7 @@ class MinesweeperGame
 
     def run
         self.play_turn until self.game_over?
-        self.render
+        @board.render
         if self.won?
             puts "Congrats, you won!"
         else
@@ -30,6 +30,13 @@ class MinesweeperGame
         @board.grid.any? do |row|
             row.any? { |tile| tile.bombed && tile.revealed }
         end
+    end
+
+    def play_turn
+        @board.render
+        move = self.get_move
+        pos = self.get_pos
+        self.do_move(move, pos)
     end
 end
 
