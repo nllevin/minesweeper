@@ -1,5 +1,6 @@
 require_relative "board"
 require_relative "tile"
+require "yaml"
 
 class MinesweeperGame
     def initialize(height, width, mines)
@@ -49,6 +50,9 @@ class MinesweeperGame
     end
 
     def save_game
+        puts "How would you like to name your saved game?"
+        save_name = gets.chomp
+        File.open(save_name, "w") { |file| file.write(self.to_yaml) }
         puts "Game saved!"
         exit
     end
