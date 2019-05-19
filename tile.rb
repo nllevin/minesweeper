@@ -20,7 +20,7 @@ class Tile
     end
 
     def flag
-        @flagged = !@flagged
+        @flagged = !@flagged unless @revealed
     end
 
     def neighbors

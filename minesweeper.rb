@@ -10,9 +10,9 @@ class MinesweeperGame
         self.play_turn until self.game_over?
         @board.render
         if self.won?
-            puts "Congrats, you won!"
+            puts "\nCongrats, you won!"
         else
-            puts "Sorry, you lost."
+            puts "\nSorry, you lost."
         end
     end
 
