@@ -2,8 +2,8 @@ require_relative "board"
 require_relative "tile"
 
 class MinesweeperGame
-    def initialize
-        @board = Board.new
+    def initialize(height, width, mines)
+        @board = Board.new(height, width, mines)
     end
 
     def run
@@ -76,7 +76,7 @@ class MinesweeperGame
     end
 
     def valid_pos?(pos)
-        pos && pos[0].between?(0, 8) && pos[1].between?(0, 8)
+        pos && pos[0].between?(0, @board.height - 1) && pos[1].between?(0, @board.width - 1)
     end
 
     def parse_pos(pos)
@@ -89,6 +89,22 @@ class MinesweeperGame
 end
 
 if __FILE__ == $PROGRAM_NAME
-    game = MinesweeperGame.new
+    puts "Welcome to minesweeper!"
+    diff_level = nil
+
+    until diff_level && ["b","i","h"].include?(diff_level)
+        puts "Do you want to play beginner, intermediate, or hard? (b/i/h)"
+        diff_level = gets.chomp
+    end
+
+    if diff_level == "b"
+        height, width, mines = 9, 9, 10
+    elsif diff_level == "i"
+        height, width, mines = 16, 16, 40
+    else
+        height, width, mines = 16, 30, 99
+    end
+
+    game = MinesweeperGame.new(height, width, mines)
     game.run
 end
