@@ -36,7 +36,7 @@ class Board
         system("clear")
         cols = (0...@width).to_a.map do |col|
             if col < 10
-                [col, " "]
+                [" ", col]
             else
                 col.to_s.split("")
             end
