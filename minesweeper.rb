@@ -35,11 +35,12 @@ class MinesweeperGame
     def play_turn
         @board.render
         move = self.get_move
-        pos = self.get_pos
+        pos = self.get_pos unless move == "save"
         self.do_move(move, pos)
     end
 
     def do_move(move, pos)
+        self.save_game if move == "save" || pos == "save"
         if move == "r"
             @board[pos].reveal
         else
@@ -47,10 +48,16 @@ class MinesweeperGame
         end
     end
 
+    def save_game
+        puts "Game saved!"
+        exit
+    end
+
     def get_move
         puts "\nDo you want to reveal a square or flag/unflag a square? (r/f)"
         move = parse_move(gets.chomp)
         until self.valid_move?(move)
+            break if move == "save"
             puts "Sorry, not a valid move. Please try again. (r/f)"
             move = parse_move(gets.chomp)
         end
@@ -69,6 +76,7 @@ class MinesweeperGame
         puts "Enter the coordinates for the square you want to reveal or flag/unflag (e.g. 3,4)."
         pos = parse_pos(gets.chomp)
         until self.valid_pos?(pos)
+            break if pos == "save"
             puts "Sorry, not valid coordinates (did you use a comma?). Please try again."
             pos = parse_pos(gets.chomp)
         end
@@ -84,6 +92,7 @@ class MinesweeperGame
     end
 
     def parse_pos(pos)
+        return pos if pos == "save"
         begin
             pos.split(",").map { |char| Integer(char) }
         rescue
