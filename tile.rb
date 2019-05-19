@@ -29,9 +29,9 @@ class Tile
         neighbors = []
         x, y = @pos
         (x-1..x+1).each do |x_neighbor|
-            next if !x_neighbor.between?(0, 8)
+            next if !x_neighbor.between?(0, @board.height - 1)
             (y-1..y+1).each do |y_neighbor|
-                next if !y_neighbor.between?(0, 8)
+                next if !y_neighbor.between?(0, @board.width - 1)
                 neighbor = @board[[x_neighbor, y_neighbor]]
                 neighbors << neighbor unless self == neighbor || (neighbor.revealed && !neighbor.bombed)
             end

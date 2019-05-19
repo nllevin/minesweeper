@@ -69,14 +69,18 @@ class MinesweeperGame
         puts "Enter the coordinates for the square you want to reveal or flag/unflag (e.g. 3,4)."
         pos = parse_pos(gets.chomp)
         until self.valid_pos?(pos)
-            puts "Sorry, not valid coordinates. Please try again."
+            puts "Sorry, not valid coordinates (did you use a comma?). Please try again."
             pos = parse_pos(gets.chomp)
         end
         pos
     end
 
     def valid_pos?(pos)
-        pos && pos[0].between?(0, @board.height - 1) && pos[1].between?(0, @board.width - 1)
+        begin
+            pos && pos[0].between?(0, @board.height - 1) && pos[1].between?(0, @board.width - 1)
+        rescue
+            false
+        end
     end
 
     def parse_pos(pos)
