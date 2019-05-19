@@ -34,9 +34,24 @@ class Board
 
     def render
         system("clear")
-        puts "  " + (0...@width).to_a.join(" ")
-        puts "  " + "-" * (@width * 2 - 1)
-        @grid.each_with_index { |row, row_i| puts "#{row_i}|#{row.map(&:to_s).join(" ")}" }
+        cols = (0...@width).to_a.map do |col|
+            if col < 10
+                [col, " "]
+            else
+                col.to_s.split("")
+            end
+        end
+        cols = cols.transpose
+        puts "   " + cols[0].join(" ")
+        puts "   " + cols[1].join(" ")
+        puts "   " + "-" * (@width * 2 - 1)
+        @grid.each_with_index do |row, row_i|
+            if row_i < 10
+                puts "#{row_i} |#{row.map(&:to_s).join(" ")}"
+            else
+                puts "#{row_i}|#{row.map(&:to_s).join(" ")}"
+            end
+        end
         puts "Unflagged bombs remaining: #{self.bombs_left}"
     end
 
