@@ -106,22 +106,50 @@ class MinesweeperGame
 end
 
 if __FILE__ == $PROGRAM_NAME
-    puts "Welcome to minesweeper!"
-    diff_level = nil
-
-    until diff_level && ["b","i","h"].include?(diff_level)
-        puts "Do you want to play beginner, intermediate, or hard? (b/i/h)"
-        diff_level = gets.chomp
+    def load_game
+        puts "Please enter the name of your saved game file."
+        file_name = gets.chomp
+        begin
+            game = YAML.load(File.read(file_name))
+        rescue
+            puts "Sorry, not a valid file name."
+            game = load_game
+        end
+        game
     end
 
-    if diff_level == "b"
-        height, width, mines = 9, 9, 10
-    elsif diff_level == "i"
-        height, width, mines = 16, 16, 40
+    def select_difficulty_level
+        diff_level = nil
+
+        until diff_level && ["b","i","h"].include?(diff_level)
+            puts "Do you want to play beginner, intermediate, or hard? (b/i/h)"
+            diff_level = gets.chomp
+        end
+
+        if diff_level == "b"
+            height, width, mines = 9, 9, 10
+        elsif diff_level == "i"
+            height, width, mines = 16, 16, 40
+        else
+            height, width, mines = 16, 30, 99
+        end
+
+        MinesweeperGame.new(height, width, mines)
+    end
+
+        puts "Welcome to minesweeper!"
+
+    input = nil
+    until input && input == "y" || input == "n"
+        puts "Would you like to load a saved game? (y/n)"
+        input = gets.chomp
+    end
+
+    if input == "n"
+        game = select_difficulty_level
     else
-        height, width, mines = 16, 30, 99
+        game = load_game
     end
 
-    game = MinesweeperGame.new(height, width, mines)
     game.run
 end
