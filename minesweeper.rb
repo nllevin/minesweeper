@@ -1,7 +1,7 @@
 require_relative "board"
 require_relative "tile"
 require "yaml"
-requrire "io/console"
+require "io/console"
 
 class MinesweeperGame
     def initialize(height, width, mines)

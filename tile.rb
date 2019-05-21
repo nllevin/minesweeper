@@ -10,11 +10,6 @@ class Tile
         @bombed = false
         @flagged = false
         @revealed = false
-        if @pos == [0,0]
-            @active = true
-        else
-            @active = false
-        end
     end
 
     def reveal
@@ -72,7 +67,7 @@ class Tile
             str = 7.to_s.colorize(:black) if num_bombs == 7
             str = 8.to_s.colorize(:light_black) if num_bombs == 8
         end
-        str = str.on_light_black if @active
+        str = str.on_light_black if @pos == @board.active_pos
         str
     end
 end

@@ -2,11 +2,13 @@ require_relative 'tile'
 
 class Board
     attr_reader :grid, :height, :width, :mines
+    attr_accessor :active_pos
 
     def initialize(height, width, mines)
         @height = height
         @width = width
         @mines = mines
+        @active_pos = [0, 0]
         @grid = self.populate
     end
 
