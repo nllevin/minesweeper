@@ -49,8 +49,9 @@ class Tile
 
     def to_s
         str = ""
-        if !@revealed && @flagged
+        if @flagged
             str = "F".colorize(:yellow)
+            str = str.on_red if @revealed
         elsif !@revealed
             str = "*"
         elsif @bombed

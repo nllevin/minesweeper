@@ -16,11 +16,13 @@ class MinesweeperGame
 
     def display_outcome
         if self.won?
-            @board.grid.flatten.each { |tile| tile.flag if tile.bombed }
+            @board.grid.flatten.each { |tile| tile.flagged = true if tile.bombed }
             @board.render
             puts "\nCongrats, you won!"
         else
-            @board.grid.flatten.each { |tile| tile.reveal if tile.bombed }
+            @board.grid.flatten.each do |tile| 
+                tile.revealed = true if tile.bombed || (tile.flagged && !tile.bombed)
+            end
             @board.render
             puts "\nSorry, you lost."
         end
