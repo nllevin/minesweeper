@@ -56,7 +56,7 @@ class Board
             end
         end
         puts "Unflagged bombs remaining: #{self.bombs_left}"
-        puts "Enter 'save' at any time to save your game."
+        puts "Enter 's' at any time to save your game."
     end
 
     def bombs_left

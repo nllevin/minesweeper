@@ -44,26 +44,39 @@ class MinesweeperGame
 
     def play_first_turn
         @board.render
-        puts "\nStart the game by revealing a square."
-        first_pos = self.get_pos
-        @board.seed_bombs!(first_pos)
-        self.do_move("r", first_pos)
+        input = self.read_char
+        until input == "r"
+            self.execute_cursor_input(input)
+            @board.render
+            input = self.read_char
+        end
+        @board.seed_bombs!(@board.active_pos)
+        self.alter_tile("r")
+    end
+
+    def execute_cursor_input(input)
+        if self.valid_tile_alteration?(input)
+            self.alter_tile(input)
+        elsif self.valid_cursor_movement?(input)
+            self.move_cursor(input)
+        end
     end
 
     def play_turn
         @board.render
-        move = self.get_move
-        pos = self.get_pos unless move == "save"
-        self.do_move(move, pos)
+        input = self.read_char
+        self.execute_cursor_input(input)
     end
 
-    def do_move(move, pos)
-        self.save_game if move == "save" || pos == "save"
-        if move == "r"
-            @board[pos].reveal
+    def alter_tile(action)
+        active_pos = @board.active_pos
+        self.save_game if action == "s"
+        if action == "r"
+            @board[active_pos].reveal
         else
-            @board[pos].flag
+            @board[active_pos].flag
         end
+        exit if action == "\e"
     end
 
     def save_game
@@ -74,50 +87,26 @@ class MinesweeperGame
         exit
     end
 
-    def get_move
-        puts "\nDo you want to reveal a square or flag/unflag a square? (r/f)"
-        move = parse_move(gets.chomp)
-        until self.valid_move?(move)
-            break if move == "save"
-            puts "Sorry, not a valid move. Please try again. (r/f)"
-            move = parse_move(gets.chomp)
-        end
-        move
+    def valid_tile_alteration?(input)
+        input = input.downcase
+        input == "r" || input == "f" || input == "s" || input == "\e"
     end
 
-    def valid_move?(move)
-        move == "r" || move == "f"
+    def valid_cursor_movement?(input)
+        input == "\e[A" || input == "\e[B" || input == "\e[C" || input == "\e[D"
     end
 
-    def parse_move(move)
-        move.downcase
-    end
-
-    def get_pos
-        puts "Enter the coordinates for the square you want to play (e.g. 3,4)."
-        pos = parse_pos(gets.chomp)
-        until self.valid_pos?(pos)
-            break if pos == "save"
-            puts "Sorry, not valid coordinates (did you use a comma?). Please try again."
-            pos = parse_pos(gets.chomp)
-        end
-        pos
-    end
-
-    def valid_pos?(pos)
-        begin
-            pos && pos[0].between?(0, @board.height - 1) && pos[1].between?(0, @board.width - 1)
-        rescue
-            false
-        end
-    end
-
-    def parse_pos(pos)
-        return pos if pos == "save"
-        begin
-            pos.split(",").map { |char| Integer(char) }
-        rescue
-            return nil
+    def move_cursor(input)
+        x, y = @board.active_pos
+        case input
+        when "\e[A"                                                 #up
+            @board.active_pos = [x-1,y] unless x == 0
+        when "\e[B"                                                 #down
+            @board.active_pos = [x+1,y] unless x == @board.height - 1
+        when "\e[C"                                                 #right
+            @board.active_pos = [x,y+1] unless y == @board.width - 1
+        when "\e[D"                                                 #left
+            @board.active_pos = [x,y-1] unless y == 0
         end
     end
 
