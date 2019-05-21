@@ -71,14 +71,22 @@ class MinesweeperGame
     end
 
     def alter_tile(action)
-        active_pos = @board.active_pos
-        self.save_game if action == "s"
-        if action == "r"
-            @board[active_pos].reveal
-        else
-            @board[active_pos].flag
+        active_tile = @board[@board.active_pos]
+
+        case action
+        when "s"
+            self.save_game
+        when "r"
+            active_tile.reveal
+        when "f"
+            active_tile.flag
+        when " "
+            if active_tile.neighbor_bomb_count == active_tile.neighbor_flag_count
+                active_tile.neighbors.each { |neighbor| neighbor.reveal }
+            end
+        when "\e"
+            exit
         end
-        exit if action == "\e"
     end
 
     def save_game
@@ -91,7 +99,7 @@ class MinesweeperGame
 
     def valid_tile_alteration?(input)
         input = input.downcase
-        input == "r" || input == "f" || input == "s" || input == "\e"
+        input == "r" || input == "f" || input == "s" || input == " " || input == "\e"
     end
 
     def valid_cursor_movement?(input)

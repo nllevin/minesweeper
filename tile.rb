@@ -43,6 +43,10 @@ class Tile
         self.neighbors.count { |neighbor| neighbor.bombed }
     end
 
+    def neighbor_flag_count
+        self.neighbors.count { |neighbor| neighbor.flagged }
+    end
+
     def inspect
         { pos: @pos, bombed: @bombed, flagged: @flagged, revealed: @revealed }
     end
