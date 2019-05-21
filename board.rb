@@ -1,4 +1,5 @@
 require_relative 'tile'
+require 'byebug'
 
 class Board
     attr_reader :grid, :height, :width, :mines
@@ -12,24 +13,26 @@ class Board
 
     def populate
         grid = Array.new(@height) { [] }
-        bomb_locs = self.seed_bombs
         grid.each_with_index do |row, row_i|
-            (0...@width).each do |col_i|
-                pos = [row_i, col_i]
-                bombed = bomb_locs.include?(pos)
-                row << Tile.new(pos, bombed, self)
-            end
+            (0...@width).each { |col_i| row << Tile.new([row_i, col_i], self) }
         end
         grid
     end
 
-    def seed_bombs
+    def seed_bombs!(first_pos)
+        #debugger
         bomb_locs = []
+        first_tile = self[first_pos]
+        first_neighbors = first_tile.neighbors
         until bomb_locs.length == @mines
-            pos = [rand(0...@height), rand(0...@width)]
-            bomb_locs << pos unless bomb_locs.include?(pos)
+            bomb_pos = [rand(0...@height), rand(0...@width)]
+            unless bomb_locs.include?(bomb_pos) || 
+                        bomb_pos == first_pos || 
+                        first_neighbors.any? { |neighbor| neighbor.pos == bomb_pos }
+                bomb_locs << bomb_pos
+                self[bomb_pos].bombed = true
+            end
         end
-        bomb_locs
     end
 
     def render

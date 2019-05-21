@@ -8,6 +8,7 @@ class MinesweeperGame
     end
 
     def run
+        self.play_first_turn
         self.play_turn until self.game_over?
         @board.render
         if self.won?
@@ -31,6 +32,14 @@ class MinesweeperGame
         @board.grid.any? do |row|
             row.any? { |tile| tile.bombed && tile.revealed }
         end
+    end
+
+    def play_first_turn
+        @board.render
+        puts "\nStart the game by revealing a square."
+        first_pos = self.get_pos
+        @board.seed_bombs!(first_pos)
+        self.do_move("r", first_pos)
     end
 
     def play_turn
@@ -77,7 +86,7 @@ class MinesweeperGame
     end
 
     def get_pos
-        puts "Enter the coordinates for the square you want to reveal or flag/unflag (e.g. 3,4)."
+        puts "Enter the coordinates for the square you want to play (e.g. 3,4)."
         pos = parse_pos(gets.chomp)
         until self.valid_pos?(pos)
             break if pos == "save"
@@ -137,7 +146,7 @@ if __FILE__ == $PROGRAM_NAME
         MinesweeperGame.new(height, width, mines)
     end
 
-        puts "Welcome to minesweeper!"
+    puts "Welcome to minesweeper!"
 
     input = nil
     until input && input == "y" || input == "n"

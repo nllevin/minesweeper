@@ -2,13 +2,12 @@ require_relative "board"
 require "colorize"
 
 class Tile
-    attr_reader :bombed
-    attr_accessor :flagged, :revealed
+    attr_accessor :pos, :bombed, :flagged, :revealed
 
-    def initialize(pos, bombed, board)
+    def initialize(pos, board)
         @pos = pos
         @board = board
-        @bombed = bombed
+        @bombed = false
         @flagged = false
         @revealed = false
     end
