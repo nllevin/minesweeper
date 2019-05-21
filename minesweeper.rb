@@ -21,7 +21,7 @@ class MinesweeperGame
             puts "\nCongrats, you won!"
         else
             @board.grid.flatten.each do |tile| 
-                tile.revealed = true if tile.bombed || (tile.flagged && !tile.bombed)
+                tile.revealed = true if (!tile.flagged && tile.bombed) || (tile.flagged && !tile.bombed)
             end
             @board.render
             puts "\nSorry, you lost."
