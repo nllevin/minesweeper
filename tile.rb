@@ -53,7 +53,7 @@ class Tile
         elsif !@revealed
             return "*"
         elsif @bombed
-            return "B"
+            return "B".colorize(:magenta)
         else 
             num_bombs = self.neighbor_bomb_count
             return "_" if num_bombs == 0

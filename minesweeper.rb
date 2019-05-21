@@ -10,10 +10,17 @@ class MinesweeperGame
     def run
         self.play_first_turn
         self.play_turn until self.game_over?
-        @board.render
+        self.display_outcome
+    end
+
+    def display_outcome
         if self.won?
+            @board.grid.flatten.each { |tile| tile.flag if tile.bombed }
+            @board.render
             puts "\nCongrats, you won!"
         else
+            @board.grid.flatten.each { |tile| tile.reveal if tile.bombed }
+            @board.render
             puts "\nSorry, you lost."
         end
     end

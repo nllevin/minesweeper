@@ -1,5 +1,4 @@
 require_relative 'tile'
-require 'byebug'
 
 class Board
     attr_reader :grid, :height, :width, :mines
@@ -20,7 +19,6 @@ class Board
     end
 
     def seed_bombs!(first_pos)
-        #debugger
         bomb_locs = []
         first_tile = self[first_pos]
         first_neighbors = first_tile.neighbors
