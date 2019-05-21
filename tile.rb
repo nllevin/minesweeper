@@ -2,7 +2,7 @@ require_relative "board"
 require "colorize"
 
 class Tile
-    attr_accessor :pos, :bombed, :flagged, :revealed
+    attr_accessor :pos, :bombed, :flagged, :revealed, :active
 
     def initialize(pos, board)
         @pos = pos
@@ -10,6 +10,11 @@ class Tile
         @bombed = false
         @flagged = false
         @revealed = false
+        if @pos == [0,0]
+            @active = true
+        else
+            @active = false
+        end
     end
 
     def reveal
@@ -48,23 +53,26 @@ class Tile
     end
 
     def to_s
+        str = ""
         if !@revealed && @flagged
-            return "F".colorize(:yellow)
+            str = "F".colorize(:yellow)
         elsif !@revealed
-            return "*"
+            str = "*"
         elsif @bombed
-            return "B".colorize(:magenta)
+            str = "B".colorize(:magenta)
         else 
             num_bombs = self.neighbor_bomb_count
-            return "_" if num_bombs == 0
-            return 1.to_s.colorize(:cyan) if num_bombs == 1
-            return 2.to_s.colorize(:green) if num_bombs == 2
-            return 3.to_s.colorize(:red) if num_bombs == 3
-            return 4.to_s.colorize(:blue) if num_bombs == 4
-            return 5.to_s.colorize(:light_red) if num_bombs == 5
-            return 6.to_s.colorize(:light_green) if num_bombs == 6
-            return 7.to_s.colorize(:black) if num_bombs == 7
-            return 8.to_s.colorize(:light_black) if num_bombs == 8
+            str = "_" if num_bombs == 0
+            str = 1.to_s.colorize(:cyan) if num_bombs == 1
+            str = 2.to_s.colorize(:green) if num_bombs == 2
+            str = 3.to_s.colorize(:red) if num_bombs == 3
+            str = 4.to_s.colorize(:blue) if num_bombs == 4
+            str = 5.to_s.colorize(:light_red) if num_bombs == 5
+            str = 6.to_s.colorize(:light_green) if num_bombs == 6
+            str = 7.to_s.colorize(:black) if num_bombs == 7
+            str = 8.to_s.colorize(:light_black) if num_bombs == 8
         end
+        str = str.on_light_black if @active
+        str
     end
 end
