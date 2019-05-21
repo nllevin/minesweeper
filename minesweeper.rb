@@ -18,7 +18,7 @@ class MinesweeperGame
         if self.won?
             @board.grid.flatten.each { |tile| tile.flagged = true if tile.bombed }
             @board.render
-            puts "\nCongrats, you won!"
+            puts "\nCongrats, you won in #{Time.now.to_i - @board.start_time}s!"
         else
             @board.grid.flatten.each do |tile| 
                 tile.revealed = true if (!tile.flagged && tile.bombed) || (tile.flagged && !tile.bombed)

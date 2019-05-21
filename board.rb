@@ -1,7 +1,7 @@
 require_relative 'tile'
 
 class Board
-    attr_reader :grid, :height, :width, :mines
+    attr_reader :grid, :height, :width, :mines, :start_time
     attr_accessor :active_pos
 
     def initialize(height, width, mines)
@@ -9,6 +9,7 @@ class Board
         @width = width
         @mines = mines
         @active_pos = [0, 0]
+        @start_time = Time.now.to_i
         @grid = self.populate
     end
 
@@ -56,6 +57,7 @@ class Board
             end
         end
         puts "Unflagged bombs remaining: #{self.bombs_left}"
+        puts "Time elapsed: #{Time.now.to_i - @start_time}"
         puts "Enter 's' at any time to save your game."
     end
 
