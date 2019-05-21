@@ -1,4 +1,5 @@
 require_relative "board"
+require "colorize"
 
 class Tile
     attr_reader :bombed
@@ -49,15 +50,22 @@ class Tile
 
     def to_s
         if !@revealed && @flagged
-            return "F"
+            return "F".colorize(:yellow)
         elsif !@revealed
             return "*"
         elsif @bombed
             return "B"
-        elsif self.neighbor_bomb_count > 0
-            return "#{self.neighbor_bomb_count}"
-        else
-            return "_"
+        else 
+            num_bombs = self.neighbor_bomb_count
+            return "_" if num_bombs == 0
+            return 1.to_s.colorize(:cyan) if num_bombs == 1
+            return 2.to_s.colorize(:green) if num_bombs == 2
+            return 3.to_s.colorize(:red) if num_bombs == 3
+            return 4.to_s.colorize(:blue) if num_bombs == 4
+            return 5.to_s.colorize(:light_red) if num_bombs == 5
+            return 6.to_s.colorize(:light_green) if num_bombs == 6
+            return 7.to_s.colorize(:black) if num_bombs == 7
+            return 8.to_s.colorize(:light_black) if num_bombs == 8
         end
     end
 end
