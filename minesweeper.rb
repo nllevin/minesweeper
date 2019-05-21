@@ -81,7 +81,7 @@ class MinesweeperGame
         when "f"
             active_tile.flag
         when " "
-            if active_tile.neighbor_bomb_count == active_tile.neighbor_flag_count
+            if active_tile.neighbor_bomb_count == active_tile.neighbor_flag_count && !active_tile.flagged
                 active_tile.neighbors.each { |neighbor| neighbor.reveal }
             end
         when "\e"
