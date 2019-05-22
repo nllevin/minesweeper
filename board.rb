@@ -58,7 +58,8 @@ class Board
         end
         puts "Unflagged bombs remaining: #{self.bombs_left}"
         puts "Time elapsed: #{Time.now.to_i - @start_time}"
-        puts "Enter 's' at any time to save your game."
+        puts "Controls: arrows => move cursor, r => reveal, f => flag/unflag,"
+        puts "          space => left+right click, s => save, esc => quit."
     end
 
     def bombs_left
